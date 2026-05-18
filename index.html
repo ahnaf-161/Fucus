@@ -3,12 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<!-- Apple PWA: enables Add to Home Screen standalone mode -->
 <meta name="apple-mobile-web-app-capable" content="yes">
-<!-- Extends app content under the status bar (works with viewport-fit=cover) -->
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Clean Slate">
-<title>Clean Slate — ADHD Dashboard</title>
+<title>Clean Slate — Premium Cognitive Workspace</title>
 <style>
   :root {
     --bg: #0d0d0f;
@@ -49,7 +47,6 @@
     color: var(--text);
     font-family: 'SF Pro Display', 'Segoe UI Variable', 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     min-height: 100vh;
-    /* env() safe-area-inset keeps content clear of the notch & home bar in standalone PWA mode */
     padding: calc(24px + env(safe-area-inset-top)) 16px calc(80px + env(safe-area-inset-bottom));
     -webkit-font-smoothing: antialiased;
     line-height: 1.5;
@@ -66,7 +63,6 @@
     --text-muted: #999999;
   }
 
-  /* Cyberpunk Edition */
   body.theme-cyberpunk {
     --bg: #05050a;
     --surface: #0f0e1a;
@@ -90,7 +86,6 @@
     --green-border: rgba(0,240,255,0.35);
   }
 
-  /* Rose Gold Edition */
   body.theme-rosegold {
     --bg: #1c1617;
     --surface: #261f21;
@@ -124,15 +119,10 @@
     opacity: 0.35;
   }
 
-
-
-
   .page { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
-
   .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 36px; flex-wrap: wrap; gap: 12px; }
   .header-left h1 { font-size: clamp(22px, 4vw, 30px); font-weight: 700; letter-spacing: -0.03em; color: #fff; }
   .header-left p { font-size: 13px; color: var(--text-dim); margin-top: 2px; letter-spacing: 0.02em; }
-
   .header-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 
   .btn-reset { background: var(--surface2); color: var(--text-dim); border: 1px solid var(--border); padding: 9px 18px; border-radius: 50px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all var(--transition); letter-spacing: 0.01em; }
@@ -141,10 +131,6 @@
   .theme-toggle { background: var(--surface2); color: var(--text-dim); border: 1px solid var(--border); padding: 9px 18px; border-radius: 50px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all var(--transition); letter-spacing: 0.01em; display: flex; align-items: center; gap: 6px; }
   .theme-toggle:hover { background: rgba(245,200,66,0.12); border-color: var(--yellow-border); color: var(--yellow); }
 
-
-
-
-  /* Backup Status Indicator */
   .backup-status { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-dim); padding: 8px 14px; background: var(--surface2); border-radius: 50px; border: 1px solid var(--border); }
   .backup-status.safe { color: var(--green); border-color: var(--green-border); }
   .backup-status.warning { color: var(--red); border-color: var(--red-border); animation: pulse 1.5s ease-in-out infinite; }
@@ -174,42 +160,32 @@
   .btn-done { background: var(--green); color: #0a2b18; border: none; font-weight: 700; }
   .btn-done:hover { background: #3de07e; }
 
-  /* RED SECTION */
   .card-red { border-color: var(--red-border); box-shadow: 0 0 0 1px var(--red-border), 0 8px 40px var(--red-glow); }
   .card-red .card-dot { background: var(--red); box-shadow: 0 0 8px var(--red); }
   .card-red .card-title h2 { color: var(--red); }
-  /* Brain Dump formatting toolbar */
   .brain-toolbar { display: flex; gap: 4px; margin-bottom: 6px; }
   .brain-fmt-btn { background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-family: inherit; cursor: pointer; transition: all var(--transition); line-height: 1.4; }
   .brain-fmt-btn:hover { background: var(--red-soft); border-color: var(--red-border); color: var(--red); }
   .brain-fmt-btn.bold  { font-weight: 700; }
   .brain-fmt-btn.italic { font-style: italic; }
 
-  /* contenteditable brain dump box */
   .brain-textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: inherit; font-size: 15px; line-height: 1.7; padding: 16px; min-height: 160px; transition: border-color var(--transition), box-shadow var(--transition); outline: none; overflow-y: auto; word-break: break-word; }
   .brain-textarea:empty::before { content: attr(data-placeholder); color: var(--text-muted); pointer-events: none; display: block; }
   .brain-textarea:focus { border-color: var(--red-border); box-shadow: 0 0 0 3px var(--red-glow); }
-  .brain-textarea b, .brain-textarea strong { font-weight: 700; }
-  .brain-textarea i, .brain-textarea em { font-style: italic; }
-  .brain-textarea ul { padding-left: 20px; }
-  .brain-textarea li { margin-bottom: 2px; }
   .convert-row { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; flex-wrap: wrap; gap: 10px; }
   .textarea-hint { font-size: 11px; color: var(--text-muted); text-align: right; }
 
-  /* Chaos Processor Mode */
   .chaos-processor { display: none; background: rgba(255,59,92,0.04); border: 1px solid var(--red-border); border-radius: var(--radius-sm); padding: 16px; margin-top: 12px; }
   .chaos-processor.active { display: block; }
   .processor-line { display: flex; gap: 10px; align-items: center; padding: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 8px; animation: slideIn 0.2s ease; }
   .processor-line-text { flex: 1; font-size: 14px; color: var(--text); word-break: break-word; }
   .processor-line-actions { display: flex; gap: 6px; }
   .processor-btn { padding: 5px 10px; font-size: 11px; border-radius: 50px; border: 1px solid var(--border); background: transparent; color: var(--text-dim); cursor: pointer; transition: all var(--transition); }
-  .processor-btn:hover { background: var(--surface2); color: var(--text); }
   .processor-btn.add { color: var(--green); border-color: var(--green-border); }
   .processor-btn.add:hover { background: var(--green-soft); }
   .processor-btn.skip { color: var(--yellow); border-color: var(--yellow-border); }
   .processor-btn.skip:hover { background: var(--yellow-soft); }
 
-  /* YELLOW SECTION */
   .card-yellow { border-color: var(--yellow-border); box-shadow: 0 0 0 1px var(--yellow-border), 0 8px 40px var(--yellow-glow); }
   .card-yellow .card-dot { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
   .card-yellow .card-title h2 { color: var(--yellow); }
@@ -219,11 +195,9 @@
   @keyframes slideIn { from { opacity: 0; transform: translateY(-12px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
   .focus-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--yellow-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
   .focus-label::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); animation: pulse-dot 1.4s ease-in-out infinite; }
-  @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.7); } }
   .focus-task-text { font-size: clamp(20px, 3.5vw, 26px); font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.3; margin-bottom: 22px; word-break: break-word; }
   .focus-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 
-  /* Flow State Indicator */
   .flow-state-container { margin-top: 20px; padding: 16px; background: rgba(245,200,66,0.04); border: 1px solid var(--yellow-border); border-radius: var(--radius-sm); display: none; }
   .flow-state-container.active { display: block; }
   .flow-state-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--yellow-dark); margin-bottom: 12px; }
@@ -235,17 +209,13 @@
   .flow-controls { display: flex; gap: 8px; margin-top: 12px; }
   .flow-btn { padding: 6px 12px; font-size: 12px; border-radius: 50px; border: 1px solid var(--yellow-border); background: transparent; color: var(--yellow); cursor: pointer; transition: all var(--transition); }
   .flow-btn:hover { background: var(--yellow-soft); }
-  @keyframes grow { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
   .task-input-row { display: flex; gap: 10px; margin-bottom: 16px; }
   .task-input { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 50px; color: var(--text); font-family: inherit; font-size: 14px; padding: 10px 18px; outline: none; transition: border-color var(--transition), box-shadow var(--transition); }
   .task-input::placeholder { color: var(--text-muted); }
   .task-input:focus { border-color: var(--yellow-border); box-shadow: 0 0 0 3px var(--yellow-glow); }
-  /* Priority dropdown */
   .priority-select { background: var(--surface2); border: 1px solid var(--border); border-radius: 50px; color: var(--text-dim); font-family: inherit; font-size: 13px; padding: 10px 14px; outline: none; cursor: pointer; transition: border-color var(--transition); flex-shrink: 0; }
-  .priority-select:focus { border-color: var(--yellow-border); }
 
-  /* Task priority left-border stripes — color ONLY on the left edge */
   .task-item[data-priority="now"]      { border-left: 4px solid #ff3b5c; }
   .task-item[data-priority="later"]    { border-left: 4px solid #f5c842; }
   .task-item[data-priority="sometime"] { border-left: 4px solid #7b6cf6; }
@@ -265,14 +235,11 @@
   .btn-delete-task:hover { color: var(--red); background: var(--red-soft); }
   .task-list.focus-active .task-item { opacity: 0; pointer-events: none; height: 0; padding: 0; margin: 0; overflow: hidden; transition: all 0.3s ease; }
 
-  /* Undo Toast */
   .undo-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid var(--green-border); border-radius: var(--radius-sm); padding: 14px 20px; display: flex; align-items: center; gap: 12px; z-index: 1000; animation: slideUp 0.3s ease; box-shadow: 0 8px 32px rgba(46,204,113,0.2); }
   @keyframes slideUp { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
   .undo-toast-text { font-size: 13px; color: var(--text); }
   .undo-btn { background: var(--green); color: #0a2b18; border: none; padding: 6px 12px; border-radius: 50px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all var(--transition); }
-  .undo-btn:hover { background: #3de07e; }
 
-  /* GREEN SECTION */
   .card-green { border-color: var(--green-border); box-shadow: 0 0 0 1px var(--green-border), 0 8px 40px var(--green-glow); }
   .card-green .card-dot { background: var(--green); box-shadow: 0 0 8px var(--green); }
   .card-green .card-title h2 { color: var(--green); }
@@ -291,9 +258,6 @@
   .archive-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
   .archive-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); }
   .archive-list { display: flex; flex-direction: column; gap: 7px; max-height: 260px; overflow-y: auto; padding-right: 4px; }
-  .archive-list::-webkit-scrollbar { width: 4px; }
-  .archive-list::-webkit-scrollbar-track { background: transparent; }
-  .archive-list::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
   .archive-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; background: var(--surface2); border-radius: var(--radius-sm); border: 1px solid var(--border); animation: taskIn 0.28s ease; transition: border-color var(--transition); }
   .archive-item:hover { border-color: var(--green-border); }
   .archive-check { color: var(--green); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
@@ -301,13 +265,11 @@
   .archive-empty { text-align: center; padding: 24px; color: var(--text-muted); font-size: 13px; }
 
   .divider { height: 1px; background: var(--border); margin: 24px 0; }
-  
   .footer { text-align: center; color: var(--text-muted); font-size: 12px; padding: 20px 0 0; letter-spacing: 0.02em; display: flex; flex-direction: column; gap: 12px; align-items: center; }
-  .data-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .data-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; align-items: center; }
   .data-link { color: var(--text-dim); cursor: pointer; text-decoration: none; transition: color var(--transition); background: none; border: none; font-size: 12px; font-family: inherit; }
   .data-link:hover { color: var(--text); }
 
-  /* "Input Sync Code" is the primary import action — make it pop */
   .data-link-primary {
     color: var(--green);
     cursor: pointer;
@@ -328,13 +290,12 @@
     color: #3de07e;
   }
 
-  /* Modal */
   .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center; }
   .modal.active { display: flex; }
   .modal-content { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; }
   .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--text); }
   .modal-text { font-size: 14px; color: var(--text-dim); margin-bottom: 16px; line-height: 1.6; }
-  .sync-code { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; font-family: monospace; font-size: 11px; word-break: break-all; color: var(--text); margin-bottom: 12px; max-height: 200px; overflow-y: auto; }
+  .sync-code { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; font-family: monospace; font-size: 11px; word-break: break-all; color: var(--text); margin-bottom: 12px; max-height: 150px; overflow-y: auto; user-select: all; }
   .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
   .modal-btn { padding: 10px 16px; border-radius: 50px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); cursor: pointer; transition: all var(--transition); font-size: 13px; font-weight: 600; }
   .modal-btn:hover { background: var(--yellow-soft); border-color: var(--yellow-border); color: var(--yellow); }
@@ -371,10 +332,10 @@
   <div class="header">
     <div class="header-left">
       <h1>🧹 Clean Slate</h1>
-      <p>Your chaos-friendly command center</p>
+      <p>Your noise-reduction focus cockpit</p>
     </div>
     <div class="header-controls">
-      <div class="backup-status" id="backupStatus" title="Click to sync across devices">
+      <div class="backup-status" id="backupStatus" title="Local file security status">
         <div class="backup-dot"></div>
         <span id="backupText">Safe</span>
       </div>
@@ -392,7 +353,6 @@
       <button class="btn btn-red" onclick="toggleChaosProcessor()">🔄 Process Mode</button>
     </div>
     <div class="card-body">
-      <!-- Formatting toolbar -->
       <div class="brain-toolbar">
         <button class="brain-fmt-btn bold"   onmousedown="event.preventDefault(); document.execCommand('bold')"        title="Bold">B</button>
         <button class="brain-fmt-btn italic" onmousedown="event.preventDefault(); document.execCommand('italic')"      title="Italic"><i>I</i></button>
@@ -402,12 +362,12 @@
         class="brain-textarea"
         id="brainDump"
         contenteditable="true"
-        data-placeholder="🧠 Throw everything here. Thoughts, worries, tasks, ideas, grocery lists, existential dread — anything. No rules."
+        data-placeholder="🧠 Throw everything here. Thoughts, worries, tasks, ideas — anything. Clear your working memory without formatting constraints."
         oninput="saveBrainDump()"
       ></div>
       <div class="convert-row">
         <button class="btn btn-ghost" onclick="convertDumpToTasks()">⚡ Convert All to Tasks</button>
-        <p class="textarea-hint">Auto-saved · No judgment zone</p>
+        <p class="textarea-hint">Auto-saved to device</p>
       </div>
       <div class="chaos-processor" id="chaosProcessor">
         <div id="processorLines"></div>
@@ -430,7 +390,7 @@
     <div class="card-body">
 
       <div class="focus-window" id="focusWindow">
-        <div class="focus-label">⚡ Right now, only this</div>
+        <div class="focus-label">⚡ Active Task Execution</div>
         <div class="focus-task-text" id="focusTaskText"></div>
         <div class="flow-state-container" id="flowStateContainer">
           <div class="flow-state-label">🌱 Flow State Active</div>
@@ -460,13 +420,13 @@
           <option value="later">🟡 Later</option>
           <option value="sometime">🔵 Sometime</option>
         </select>
-        <input type="text" class="task-input" id="taskInput" placeholder="Add a task… press Enter or click Add" onkeydown="if(event.key==='Enter') addTask()" maxlength="200" />
+        <input type="text" class="task-input" id="taskInput" placeholder="Add a task… press Enter" onkeydown="if(event.key==='Enter') addTask()" maxlength="200" />
         <button class="btn btn-yellow-solid" onclick="addTask()">+ Add Task</button>
       </div>
 
       <div class="task-list" id="taskList"></div>
       <div class="task-list-empty" id="taskListEmpty">
-        <span style="font-size:28px;">📋</span><br>No tasks yet. Add one above or convert from your Brain Dump!
+        <span style="font-size:28px;">📋</span><br>Workspace clean. Add an action item or process your brain dump.
       </div>
     </div>
   </div>
@@ -479,7 +439,6 @@
       </div>
     </div>
     <div class="card-body">
-
       <div class="progress-label">
         <div class="progress-stat" id="progressStat">0 <span>tasks done today</span></div>
         <div class="progress-pct" id="progressPct">0%</div>
@@ -493,62 +452,129 @@
 
       <div class="archive-header">
         <div class="archive-title">🏆 All-Time Win Archive</div>
-        <button class="btn btn-green" onclick="clearArchive()">Clear Archive</button>
+        <button class="btn btn-ghost" style="font-size:11px;padding:4px 10px;" onclick="clearArchive()">Clear</button>
       </div>
       <div class="archive-list" id="archiveList"></div>
-      <div class="archive-empty" id="archiveEmpty">
-        Complete a task to see your wins here ✨
-      </div>
-
+      <div class="archive-empty" id="archiveEmpty">No logged wins yet. Accomplish a task to cross the line!</div>
     </div>
   </div>
 
+</div>
+
   <div class="footer">
-    Everything lives in your browser · 100% offline · No accounts needed
+    Privacy Sovereign Architecture · 100% Offline Capable URL · Zero Cloud Logging
     <div class="data-actions">
-      <button class="data-link" onclick="openSyncModal()">🔗 Sync to Another Device</button>
-      <button class="data-link-primary" onclick="openRestoreModal()">📥 Input Sync Code</button>
-      <button class="data-link" onclick="exportData()">⬇️ Export Backup</button>
+      <button class="data-link" onclick="openSyncModal()">🔗 Cross-Device Transfer Link</button>
+      <button class="data-link-primary" onclick="openRestoreModal()">📥 Load External State</button>
+      <button class="data-link" onclick="exportData()">⬇️ Export Backup File</button>
       <label class="data-link" style="cursor:pointer;">
-        ⬆️ Import Backup
+        ⬆️ Import Backup File
         <input type="file" style="display:none;" accept=".json" onchange="importData(event)">
       </label>
     </div>
   </div>
 </div>
 
-<!-- Sync Modal -->
 <div class="modal" id="syncModal">
   <div class="modal-content">
-    <div class="modal-title">🔗 Sync to Another Device</div>
-    <div class="modal-text">Copy this code and paste it on another device to restore your data. This code expires in 24 hours.</div>
-    <div class="sync-code" id="syncCode"></div>
+    <div class="modal-title">🔗 Cross-Device Transfer Link</div>
+    <div class="modal-text">Because your data is privately locked to this hardware device, use this secure generation link to instantly open your current workspace snapshot directly on your computer or phone browser:</div>
+    <div class="sync-code" id="syncCode">Generating Link...</div>
     <div class="modal-actions">
-      <button class="modal-btn" onclick="copySyncCode()">📋 Copy Code</button>
+      <button class="modal-btn" onclick="copySyncCode()">📋 Copy Share Link</button>
       <button class="modal-btn" onclick="closeSyncModal()">✕ Close</button>
     </div>
   </div>
 </div>
 
-<!-- Restore Modal -->
 <div class="modal" id="restoreModal">
   <div class="modal-content">
-    <div class="modal-title">📥 Restore from Sync Code</div>
-    <div class="modal-text">Paste the sync code from another device to restore your data:</div>
-    <textarea id="restoreCode" style="width: 100%; height: 100px; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface2); color: var(--text); font-family: monospace; font-size: 12px; resize: none;"></textarea>
+    <div class="modal-title">📥 Load External State</div>
+    <div class="modal-text">Paste the transfer hash link or data matrix code from your other device to load your workspace state:</div>
+    <textarea id="restoreCode" placeholder="Paste data text stream here..." style="width: 100%; height: 100px; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface2); color: var(--text); font-family: monospace; font-size: 11px; resize: none;"></textarea>
     <div class="modal-actions" style="margin-top: 16px;">
-      <button class="modal-btn primary" onclick="restoreFromSync()">✓ Restore</button>
+      <button class="modal-btn primary" onclick="restoreFromSync()">✓ Hydrate State</button>
       <button class="modal-btn" onclick="closeRestoreModal()">✕ Cancel</button>
     </div>
   </div>
 </div>
 
 <script>
+  /* ========================================================================
+     DYNAMIC GITHUB-PAGES SAFE OFFLINE ENGINE (SERVICE WORKER)
+     ======================================================================== */
+  function registerInlineServiceWorker() {
+    if (!navigator.serviceWorker) return;
+
+    // Dynamically captures your repository subdirectory name layout automatically!
+    const currentRepoScope = window.location.pathname;
+
+    const swCode = `
+      const CACHE_NAME = 'clean-slate-v1';
+      const CACHE_URLS = [
+        '${currentRepoScope}',
+        './',
+        'index.html'
+      ];
+
+      self.addEventListener('install', (event) => {
+        event.waitUntil(
+          caches.open(CACHE_NAME).then((cache) => {
+            return cache.addAll(CACHE_URLS).catch(() => {});
+          })
+        );
+        self.skipWaiting();
+      });
+
+      self.addEventListener('activate', (event) => {
+        event.waitUntil(
+          caches.keys().then((cacheNames) => {
+            return Promise.all(
+              cacheNames.map((cacheName) => {
+                if (cacheName !== CACHE_NAME) {
+                  return caches.delete(cacheName);
+                }
+              })
+            );
+          })
+        );
+        self.clients.claim();
+      });
+
+      self.addEventListener('fetch', (event) => {
+        if (event.request.method !== 'GET') return;
+        event.respondWith(
+          fetch(event.request).catch(() => {
+            return caches.match(event.request).then((response) => {
+              return response || caches.match('${currentRepoScope}') || caches.match('./');
+            });
+          })
+        );
+      });
+    `;
+
+    const blob = new Blob([swCode], { type: 'application/javascript' });
+    const swUrl = URL.createObjectURL(blob);
+
+    navigator.serviceWorker.register(swUrl, { scope: './' })
+      .then(() => console.log('✓ Offline URL Engine Configured Adaptively'))
+      .catch((err) => console.warn('Offline engine delayed:', err));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', registerInlineServiceWorker);
+  } else {
+    registerInlineServiceWorker();
+  }
+
+  /* ========================================================================
+     WORKSPACE STATE MECHANICS
+     ======================================================================== */
   let tasks = [];
   let archive = [];
   let focusIndex = -1;
   let sessionCompleted = 0;
-  let currentTheme = 0; // 0=dark, 1=light, 2=cyberpunk, 3=rosegold
+  let currentTheme = 0; 
   let flowTimerInterval = null;
   let flowTimeRemaining = 25 * 60;
   let isFlowRunning = false;
@@ -556,18 +582,12 @@
   let undoStack = [];
   let processorLines = [];
 
-  /* HAPTIC FEEDBACK */
   function triggerHaptic(intensity = 'medium') {
     if (!navigator.vibrate) return;
-    const patterns = {
-      light: [10],
-      medium: [20, 10, 20],
-      strong: [50, 30, 50]
-    };
+    const patterns = { light: [10], medium: [20, 10, 20], strong: [50, 30, 50] };
     navigator.vibrate(patterns[intensity] || patterns.medium);
   }
 
-  /* BACKUP STATUS */
   function updateBackupStatus() {
     const now = Date.now();
     const lastBackup = localStorage.getItem('cs_last_backup');
@@ -579,11 +599,11 @@
     if (hoursSinceBackup > 24) {
       status.classList.remove('safe');
       status.classList.add('warning');
-      text.textContent = '⚠ Backup needed';
+      text.textContent = '⚠ Backup Recommended';
     } else {
       status.classList.remove('warning');
       status.classList.add('safe');
-      text.textContent = hoursSinceBackup === 999 ? '✓ Ready' : `✓ Safe (${hoursSinceBackup}h)`;
+      text.textContent = hoursSinceBackup === 999 ? '✓ Local Saved' : `✓ Backed up (${hoursSinceBackup}h)`;
     }
   }
 
@@ -592,14 +612,13 @@
     updateBackupStatus();
   }
 
-  /* CHAOS PROCESSOR MODE */
   function toggleChaosProcessor() {
     const raw = document.getElementById('brainDump').innerHTML;
     const plain = stripHtml(raw);
     const lines = plain.split('\n').map(l => l.trim()).filter(l => l.length > 0);
     
     if (lines.length === 0) {
-      alert('No lines to process. Add some text to your Brain Dump first!');
+      alert('Add some unstructured thoughts to your brain dump first!');
       return;
     }
     
@@ -623,8 +642,8 @@
       el.innerHTML = `
         <span class="processor-line-text">${escapeHtml(line)}</span>
         <div class="processor-line-actions">
-          <button class="processor-btn add" onclick="addProcessorLine(${index})">+ Add</button>
-          <button class="processor-btn skip" onclick="skipProcessorLine(${index})">Skip</button>
+          <button class="processor-btn add" onclick="addProcessorLine(${index})">+ Queue</button>
+          <button class="processor-btn skip" onclick="skipProcessorLine(${index})">Drop</button>
         </div>
       `;
       container.appendChild(el);
@@ -633,7 +652,7 @@
 
   function addProcessorLine(index) {
     const line = processorLines[index];
-    tasks.push({ id: Date.now() + Math.random(), text: line });
+    tasks.push({ id: Date.now() + Math.random(), text: line, priority: 'now' });
     processorLines.splice(index, 1);
     saveTasks();
     renderTaskList();
@@ -655,7 +674,7 @@
 
   function processAllLines() {
     processorLines.forEach(line => {
-      tasks.push({ id: Date.now() + Math.random(), text: line });
+      tasks.push({ id: Date.now() + Math.random(), text: line, priority: 'now' });
     });
     processorLines = [];
     saveTasks();
@@ -667,17 +686,19 @@
     triggerHaptic('medium');
   }
 
-  /* SYNC SYSTEM */
+  /* RE-ENGINEERED TRANSPARENT TRANSFER URL SCHEME */
   function openSyncModal() {
     const data = {
       tasks: tasks,
       archive: archive,
       sessionCompleted: sessionCompleted,
-      dump: document.getElementById('brainDump').innerHTML,
-      timestamp: Date.now()
+      dump: document.getElementById('brainDump').innerHTML
     };
-    const syncCode = btoa(JSON.stringify(data));
-    document.getElementById('syncCode').textContent = syncCode;
+    const encodedPayload = btoa(encodeURIComponent(JSON.stringify(data)));
+    // Builds a direct active pipeline URL using the exact hosted domain path
+    const shareLink = window.location.origin + window.location.pathname + '#sync=' + encodedPayload;
+    
+    document.getElementById('syncCode').textContent = shareLink;
     document.getElementById('syncModal').classList.add('active');
   }
 
@@ -686,9 +707,9 @@
   }
 
   function copySyncCode() {
-    const code = document.getElementById('syncCode').textContent;
-    navigator.clipboard.writeText(code).then(() => {
-      alert('✓ Sync code copied! Paste it on another device.');
+    const linkText = document.getElementById('syncCode').textContent;
+    navigator.clipboard.writeText(linkText).then(() => {
+      alert('✓ Transfer Link copied to clipboard! Send this URL to your other device to mirror your data state instantly.');
       triggerHaptic('light');
     });
   }
@@ -702,18 +723,19 @@
   }
 
   function restoreFromSync() {
-    const code = document.getElementById('restoreCode').value.trim();
-    if (!code) {
-      alert('Please paste a sync code first.');
-      return;
+    let rawInput = document.getElementById('restoreCode').value.trim();
+    if (!rawInput) return alert('Please enter data stream input text.');
+
+    if (rawInput.includes('#sync=')) {
+      rawInput = rawInput.split('#sync=')[1];
     }
     
     try {
-      const data = JSON.parse(atob(code));
-      if (data.tasks) tasks = data.tasks;
-      if (data.archive) archive = data.archive;
-      if (data.sessionCompleted !== undefined) sessionCompleted = data.sessionCompleted;
-      if (data.dump !== undefined) document.getElementById('brainDump').innerHTML = data.dump;
+      const parsedJSON = JSON.parse(decodeURIComponent(atob(rawInput)));
+      if (parsedJSON.tasks) tasks = parsedJSON.tasks;
+      if (parsedJSON.archive) archive = parsedJSON.archive;
+      if (parsedJSON.sessionCompleted !== undefined) sessionCompleted = parsedJSON.sessionCompleted;
+      if (parsedJSON.dump !== undefined) document.getElementById('brainDump').innerHTML = parsedJSON.dump;
       
       saveTasks();
       saveArchive();
@@ -725,19 +747,19 @@
       updateProgress();
       
       closeRestoreModal();
-      alert('✓ Data restored successfully!');
+      window.location.hash = '';
+      alert('✓ Workspace hydration complete! State fully mirrored.');
       triggerHaptic('medium');
     } catch(err) {
-      alert('❌ Invalid sync code. Please check and try again.');
+      alert('❌ Check formatting structure data. Verification failed.');
     }
   }
 
-  /* UNDO SYSTEM */
   function showUndoToast(deletedTask) {
     const toast = document.createElement('div');
     toast.className = 'undo-toast';
     toast.innerHTML = `
-      <span class="undo-toast-text">Task deleted</span>
+      <span class="undo-toast-text">Task removed</span>
       <button class="undo-btn" onclick="undoDelete(this)">Undo</button>
     `;
     document.body.appendChild(toast);
@@ -762,7 +784,6 @@
     triggerHaptic('medium');
   }
 
-  /* 4-STATE THEME CYCLE */
   const THEME_CLASSES = ['', 'light-mode', 'theme-cyberpunk', 'theme-rosegold'];
   const THEME_LABELS  = ['🌙 Dark', '☀️ Light', '🌐 Cyberpunk', '🌸 Rose Gold'];
 
@@ -780,7 +801,6 @@
     triggerHaptic('light');
   }
 
-  /* FLOW STATE TIMER */
   function startFlowState() {
     if (focusIndex === -1) return;
     triggerHaptic('medium');
@@ -881,14 +901,16 @@
     updateProgress();
     updateBackupStatus();
     
-    const params = new URLSearchParams(window.location.hash.substring(1));
-    if (params.has('sync')) {
-      document.getElementById('restoreCode').value = params.get('sync');
-      document.getElementById('restoreModal').classList.add('active');
+    // Auto checkout for URL hash synchronization values
+    if (window.location.hash.startsWith('#sync=')) {
+      const extractHash = window.location.hash.split('#sync=')[1];
+      if (extractHash) {
+        document.getElementById('restoreCode').value = extractHash;
+        openRestoreModal();
+      }
     }
   }
 
-  /* Strip HTML from contenteditable content into plain newline-separated text */
   function stripHtml(html) {
     return html
       .replace(/<li[^>]*>/gi, '')
@@ -903,7 +925,7 @@
       .replace(/&gt;/g, '>')
       .replace(/&quot;/g, '"')
       .replace(/&#039;/g, "'")
-      .replace(/\n{3,}/g, '\n\n') // collapse excess blank lines
+      .replace(/\n{3,}/g, '\n\n') 
       .trim();
   }
 
@@ -969,7 +991,7 @@
     document.getElementById('focusWindow').classList.add('active');
     document.getElementById('taskList').classList.add('focus-active');
     document.getElementById('taskInput').disabled = true;
-    document.querySelector('.task-input-row .btn').disabled = true;
+    document.querySelector('.task-input-row .btn-yellow-solid').disabled = true;
     document.getElementById('taskListEmpty').style.display = 'none';
     document.getElementById('focusWindow').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     triggerHaptic('medium');
@@ -981,7 +1003,7 @@
     document.getElementById('focusWindow').classList.remove('active');
     document.getElementById('taskList').classList.remove('focus-active');
     document.getElementById('taskInput').disabled = false;
-    document.querySelector('.task-input-row .btn').disabled = false;
+    document.querySelector('.task-input-row .btn-yellow-solid').disabled = false;
     renderTaskList();
   }
 
@@ -1100,11 +1122,9 @@
     document.getElementById('taskInput').value = '';
     document.getElementById('taskList').classList.remove('focus-active');
     document.getElementById('taskInput').disabled = false;
-    document.querySelector('.task-input-row .btn').disabled = false;
+    document.querySelector('.task-input-row .btn-yellow-solid').disabled = false;
 
-    localStorage.removeItem('cs_tasks');
-    localStorage.removeItem('cs_braindump');
-    localStorage.removeItem('cs_session_completed');
+    localStorage.clear();
 
     renderTaskList();
     updateProgress();
